@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>regist.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <form name="" id="" action="CustomerServlet" method="post">
+    <input type="hidden" name="method" value="regist"/> 
+      <table border="0">
+      <tr>
+          <td>学校：</td>
+          <td><input type="text" name="school" id="school"></td>
+        </tr> 
+        <tr>
+          <td>学院：</td>
+          <td><input type="text" name="department" id="department"></td>
+        </tr> 
+       	<tr>
+          <td>姓名：</td>
+          <td><input type="text" name="name" id="name" /></td>
+        </tr> 
+         <tr>
+          <td>性别：</td>
+          <td>
+          	男<input type="radio" name="sex" id="sex" value=0>
+          	女<input type="radio" name="sex" id="sex" value=1></td>
+        </tr> 
+        <tr>
+          <td>学号：</td>
+          <td><input type="text" name="customer_id" id="customer_id" /></td>
+        </tr>
+        <tr>
+          <td>密码：</td>
+          <td><input type="password" name="password" id="password"></td>
+        </tr> 
+       
+       <tr>
+          <td>手机：</td>
+          <td><input type="text" name="tel" id="tel"></td>
+        </tr> 
+        
+        
+        <tr>
+          <td colspan="2" align="center"><input type="submit"></td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>

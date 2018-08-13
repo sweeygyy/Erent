@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>addCommodity.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  <body>
+    <form name="f1" id="f1" action="AddCommodityServlet" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="seller" value="151543160" />
+      <table border="0">
+        <tr>
+          <td>商品名称</td>
+          <td><input type="text" name="com_name" id="com_name"></td>
+        </tr>
+        <tr>
+          <td>发布日期</td>
+          <td><input type="text" name="bDate" id="bDate"></td>
+        </tr>
+        <tr>
+          <td>归还日期</td>
+          <td><input type="text" name="rDate" id="rDate"></td>
+        </tr>
+        <tr>
+          <td>商品描述</td>
+          <td><textarea cols="20" rows="5" name="description"></textarea></td>
+        </tr>
+        <tr>
+          <td>商品数量</td>
+          <td><input type="text" name="count" id="count"></td>
+        </tr>
+        <tr>
+          <td>商品分类</td>
+          <td><input type="text" name="category" id="category"></td>
+        </tr>
+         <tr>
+          <td>商品图片</td>
+          <td><input type="file" name="com_image" id="com_image"></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center"><input type="submit"></td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>
