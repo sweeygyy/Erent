@@ -166,35 +166,4 @@ public class AddCommodityServlet extends HttpServlet {
 		}
 
 	}
-
-	public void init() throws ServletException {
-		// 注册日期转换器
-		ConvertUtils.register(new Converter() {
-			public Object convert(Class arg0, Object arg1) {
-				if (arg1 == null) {
-					return null;
-				}
-				if (!(arg1 instanceof String)) {
-					if(!(arg1 instanceof Date)) {
-						throw new ConversionException("非法类型，无法转换!");
-					} else {
-						return arg1;
-					}
-				}
-				String str = (String) arg1;
-				if (str.trim().equals("")) {
-					return null;
-				}
-				SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
-				try {
-					return sd.parse(str);
-				} catch (ParseException e) {
-					throw new RuntimeException(e);
-				}
-
-			}
-
-		}, Date.class);
-	}
-
 }
