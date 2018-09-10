@@ -38,6 +38,5 @@ public class JsonDateValueProcessor implements JsonValueProcessor {
             return sdf.format(value);  
         }    
         return value == null ? null : value.toString();    
-    }  
-  
+    }   
 }  

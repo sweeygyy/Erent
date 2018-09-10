@@ -120,6 +120,11 @@ public class TransformUtils {
 //		object.accumulate("data", json);
 //		return object;
 //	}
-
+	
+	public static String returnArrayString(List list) {
+		JsonConfig config = new JsonConfig();
+		config.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor());
+		return JSONArray.fromObject(list, config).toString();
+	}
 	
 }

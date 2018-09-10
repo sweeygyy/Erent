@@ -201,40 +201,4 @@ public class CustomerServlet extends BaseServlet {
 		super.destroy();
 
 	}
-
-	public void init() throws ServletException {
-		// 注册日期转换器
-		ConvertUtils.register(new Converter() {
-			public Object convert(Class arg0, Object arg1) {
-				if (arg1 == null) {
-					return null;
-				}
-				if(arg1 instanceof Date) {
-					return arg1;
-				}
-				if (!(arg1 instanceof String)) {
-					throw new ConversionException("只支持字符串转换 !");
-				}
-				String str = (String) arg1;
-				if (str.trim().equals("")) {
-					return null;
-				}
-				SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
-				try {
-					System.out.println(str);
-					System.out.println(sd.parse(str));
-					return sd.parse(str);
-				} catch (ParseException e) {
-					throw new RuntimeException(e);
-				}
-
-			}
-
-		}, Date.class);
-	}
-
-	// private void fillInfo(Customer customer) {
-	// for()
-	// }
-
 }
