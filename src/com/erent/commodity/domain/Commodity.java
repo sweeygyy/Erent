@@ -1,5 +1,6 @@
 package com.erent.commodity.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.erent.category.domain.Category;
@@ -13,9 +14,10 @@ public class Commodity {
 	private String com_image;
 	private String description;
 	private int count;
+	private boolean deleted;
 	private Customer seller;
 	private Category category;
-	private double price;
+	private int price;
 	
 	public String getCommodity_id() {
 		return commodity_id;
@@ -59,6 +61,13 @@ public class Commodity {
 	public void setCount(int count) {
 		this.count = count;
 	}
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 	public Category getCategory() {
 		return category;
 	}
@@ -74,19 +83,16 @@ public class Commodity {
 	}
 
 	
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	@Override
 	public String toString() {
-		return "Commodity [commodity_id=" + commodity_id + ", com_name="
-				+ com_name + ", bDate=" + bDate + ", rDate=" + rDate
-				+ ", com_image=" + com_image + ", description=" + description
-				+ ", count=" + count + ", seller=" + seller + ", category="
-				+ category + ", price=" + price + "]";
+		return "Commodity [commodity_id=" + commodity_id + ", com_name=" + com_name + ", bDate=" + bDate + ", rDate="
+				+ rDate + ", com_image=" + com_image + ", description=" + description + ", count=" + count
+				+ ", deleted=" + deleted + ", seller=" + seller + ", category=" + category + ", price=" + price + "]";
 	}
-
 }

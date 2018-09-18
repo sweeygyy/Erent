@@ -54,5 +54,24 @@ public class CategoryDao {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public void delete(Category category) {
+		// TODO 自动生成的方法存根
+		String sql = "delete from category where cate_id=?";
+		try {
+			runner.update(sql, category.getCate_id());
+		} catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void update(Category category) {
+		String sql = "update category set cate_name = ? where cate_id = ?";
+		try {
+			runner.update(sql, category.getCate_name(), category.getCate_id());
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 }

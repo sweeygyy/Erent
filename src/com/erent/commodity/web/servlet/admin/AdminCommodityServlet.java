@@ -51,11 +51,30 @@ public class AdminCommodityServlet extends BaseServlet {
 		List<Commodity> result = null;
 		try {
 			result = service.adminGetCommodity(nowPage, pageSize);
-//			response.setHeader( "Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-//			response.setHeader("Access-Control-Allow-Origin","http://localhost:8080");
-//			response.addHeader( "Access-Control-Allow-Methods", "POST,OPTIONS,GET" ); //可以访问此域的脚本方法类型
-//			response.addHeader( "Access-Control-Max-Age", "1000" );
 			response.getWriter().print(TransformUtils.returnArrayString(result));
+		} catch (CommodityException e) {
+			JSONObject object = TransformUtils.packException(e);
+			response.getWriter().print(object.toString());
+		}		
+	}
+	
+	/**
+	 * 管理员删除商品
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void deleteCommodity(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String commodityId = request.getParameter("commodity_id");
+
+		List<Commodity> result = null;
+		try {
+			service.remove(commodityId);
+			JSONObject object = new JSONObject();
+			object.accumulate("flag", true);
+			response.getWriter().print(object.toString());
 		} catch (CommodityException e) {
 			JSONObject object = TransformUtils.packException(e);
 			response.getWriter().print(object.toString());

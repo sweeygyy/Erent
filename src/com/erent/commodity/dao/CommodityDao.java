@@ -99,7 +99,7 @@ public class CommodityDao {
 	}
 
 	public List<Commodity> findCommodityLimit(int nowPage, int pageSize, boolean admin) {
-		String sql = "select * from commodity where deleted=0 && count > 0 order by bDate DESC limit ?, ?";
+		String sql = "select * from commodity where deleted=false && count > 0 order by bDate DESC limit ?, ?";
 		if(admin) {
 			sql = "select * from commodity order by bDate DESC limit ?,?";
 		}
@@ -205,5 +205,46 @@ public class CommodityDao {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public List<Commodity> findCommodityByCategoryId(String cate_id) {
+		String sql = "select * from commodity where cate_id = ?";
+		List<Commodity> result = new ArrayList<Commodity>();
+		try {
+			List<Map<String, Object>> list = qr.query(sql, new MapListHandler(), cate_id);
+			for (Map<String, Object> map : list) {
+				//处理关联关系
+				Commodity com = CommonUtils.toBean(map, Commodity.class);
+				Category cate = CommonUtils.toBean(map, Category.class);
+				Customer seller = new Customer();
+				seller.setCustomer_id(map.get("seller_id").toString());
+				cate = cateDao.findCategoryById(cate.getCate_id());
+				seller = custDao.findCustomerByPNum(seller.getCustomer_id());
+				com.setCategory(cate);
+				com.setSeller(seller);
+				transformDate(com);
+				result.add(com);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public void update(Commodity form) {
+		String sql = "update commodity set com_name = ?, bDate = ?, rDate = ?, com_image = ?, deleted = ?,"
+				+ "description = ? , count = ?, seller_id = ?, cate_id = ? where commodity_id = ? ";
+		Object[] params = {form.getCom_name(),
+				form.getbDate(), form.getrDate(), form.getCom_image(), 0,
+				form.getDescription(), form.getCount(),
+				form.getSeller().getCustomer_id(),
+				form.getCategory().getCate_id(),
+				form.getCommodity_id()};
+		try {
+			qr.update(sql, params);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
 	}
 }

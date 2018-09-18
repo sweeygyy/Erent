@@ -41,15 +41,48 @@ public class AdminCategoryServlet extends BaseServlet {
 	/*
 	 * 添加分类
 	 */
-	public void addCategory(HttpServletRequest request, HttpServletResponse response)
+	public void add(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Category category = CommonUtils.toBean(request.getParameterMap(), Category.class);
 		try {
-			service.add(category);
+			List<Category> categories = service.add(category);
+			JSONArray arr = JSONArray.fromObject(categories);
+			response.getWriter().print(arr.toString());
 		} catch (CategoryException e) {
 			JSONObject object = TransformUtils.packException(e);
 			response.getWriter().print(object.toString());
 		}
 	}
 	
+	/*
+	 * 删除分类
+	 */
+	public void remove(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Category category = CommonUtils.toBean(request.getParameterMap(), Category.class);
+		try {
+			List<Category> categories = service.delete(category);
+			JSONArray arr = JSONArray.fromObject(categories);
+			response.getWriter().print(arr.toString());
+		} catch (CategoryException e) {
+			JSONObject object = TransformUtils.packException(e);
+			response.getWriter().print(object.toString());
+		}
+	}
+	
+	/*
+	 *修改分类 
+	 */
+	public void modify(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Category category = CommonUtils.toBean(request.getParameterMap(), Category.class);
+		try {
+			List<Category> categories = service.modify(category);
+			JSONArray arr = JSONArray.fromObject(categories);
+			response.getWriter().print(arr.toString());
+		} catch (CategoryException e) {
+			JSONObject object = TransformUtils.packException(e);
+			response.getWriter().print(object.toString());
+		}
+	}
 }

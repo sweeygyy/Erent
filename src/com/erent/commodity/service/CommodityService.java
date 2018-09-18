@@ -100,6 +100,12 @@ public class CommodityService {
 		return result;
 	}
 
+	/**
+	 * 添加商品逻辑
+	 * @param form 添加的商品
+	 * @return
+	 * @throws CommodityException
+	 */
 	public Commodity add(Commodity form) throws CommodityException{
 		//补全默认信息
 		form.setCommodity_id(CommonUtils.uuid());
@@ -108,6 +114,13 @@ public class CommodityService {
 		return dao.findCommodityById(form.getCommodity_id());
 	}
 
+	/**
+	 * 收藏逻辑
+	 * @param customer_id 收藏的用户
+	 * @param commodity_id 收藏的商品
+	 * @throws CommodityException
+	 * @throws CustomerException
+	 */
 	public void collect(String customer_id, String commodity_id) throws CommodityException, CustomerException{
 		if(dao.findCommodityById(commodity_id) == null) {
 			throw new CommodityException("商品不存在", 500);
@@ -131,9 +144,30 @@ public class CommodityService {
 		coldao.add(coll);
 	}
 
+	/**
+	 * 获取我发布的商品逻辑
+	 * @param customer_id 用户id
+	 * @return
+	 */
 	public List<Commodity> getMyCommodity(String customer_id) {
 		List<Commodity> result = dao.findCommodityByCustomerId(customer_id);
 		return result;
+	}
+
+	/**
+	 * 后台管理员移除商品逻辑
+	 * @param commodityId
+	 * @throws CommodityException 
+	 */
+	public void remove(String commodityId) throws CommodityException {
+		// TODO 自动生成的方法存根
+		Commodity com = dao.findCommodityById(commodityId);
+		if(com == null) {
+			throw new CommodityException("要移除的商品不存在",111);
+		} else {
+			com.setDeleted(true);
+			dao.update(com);
+		}
 	}
 	
 }
