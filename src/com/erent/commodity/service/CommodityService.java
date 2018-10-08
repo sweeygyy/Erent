@@ -50,7 +50,31 @@ public class CommodityService {
 		try {
 			int nowp = Integer.parseInt(nowPage);
 			int pages = Integer.parseInt(pageSize);
-			result = dao.search(keyWord, nowp, pages);
+			result = dao.search(keyWord, nowp, pages, false);
+		} catch (NumberFormatException e) {
+			throw new CommodityException("页码无效", 201);
+		}		
+		if (result.size() < 1) {
+			throw new CommodityException("没有更多了", 200);
+		}
+		return result;
+	}
+	
+	/**
+	 * 管理员搜索逻辑
+	 * @param keyWord
+	 * @param nowPage
+	 * @param pageSize
+	 * @return
+	 * @throws CommodityException
+	 */
+	public List<Commodity> adminSearch(String keyWord, String nowPage, String pageSize) throws CommodityException {
+		// TODO Auto-generated method stub
+		List<Commodity> result = null;
+		try {
+			int nowp = Integer.parseInt(nowPage);
+			int pages = Integer.parseInt(pageSize);
+			result = dao.search(keyWord, nowp, pages, true);
 		} catch (NumberFormatException e) {
 			throw new CommodityException("页码无效", 201);
 		}		
@@ -163,11 +187,28 @@ public class CommodityService {
 		// TODO 自动生成的方法存根
 		Commodity com = dao.findCommodityById(commodityId);
 		if(com == null) {
-			throw new CommodityException("要移除的商品不存在",111);
+			throw new CommodityException("商品不存在",500);
 		} else {
 			com.setDeleted(true);
 			dao.update(com);
 		}
 	}
 	
+	/**
+	 * 后台管理员修改商品逻辑
+	 * @param form
+	 */
+	public Commodity modify(Commodity form) {
+		dao.update(form);
+		return dao.findCommodityById(form.getCommodity_id());
+	}
+	
+	public Commodity getCommodityInfo(String com_id) throws CommodityException {
+		Commodity result = dao.findCommodityById(com_id);
+		if (result == null) {
+			throw new CommodityException("商品不存在", 500);
+		} else {
+			return result;
+		}
+	}
 }

@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
+import com.erent.category.domain.Category;
 import com.erent.commodity.dao.CommodityDao;
 import com.erent.commodity.domain.Commodity;
 import com.erent.customer.dao.CustomerDao;
@@ -66,7 +67,7 @@ public class OrdersDao {
 	}
 
 	public List<Orders> findOrdersByCustomerId(String customer_id) {
-		String sql = "select * from orders where customer_id = ?";
+		String sql = "select * from orders where customer_id = ? order by order_time DESC";
 		List<Orders> result = new ArrayList<Orders>();
 		try {
 			List<Map<String, Object>> list = qr.query(sql,
@@ -90,7 +91,7 @@ public class OrdersDao {
 	}
 
 	public List<Orders> findOrdersBySellerId(String seller_id) {
-		String sql = "select * from orders, commodity where orders.commodity_id = commodity.commodity_id and seller_id = ?";
+		String sql = "select * from orders, commodity where orders.commodity_id = commodity.commodity_id and seller_id = ? order by order_time DESC";
 		List<Orders> result = new ArrayList<Orders>();
 		try {
 			List<Map<String, Object>> list = qr.query(sql,
@@ -129,6 +130,49 @@ public class OrdersDao {
 	public void updateState(Orders orders) {
 		String sql = "update orders set state = ? where orders_id = ?";
 		Object[] param = { orders.getState(), orders.getOrders_id() };
+		try {
+			qr.update(sql, param);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<Orders> findOrdersLimit(int nowPage, int pageSize) {
+		String sql = "select * from orders order by order_time DESC limit ?, ?";
+		List<Orders> result = new ArrayList<Orders>();
+		try {
+			List<Map<String, Object>> list = qr.query(sql,
+					new MapListHandler(), (nowPage - 1) * pageSize, pageSize);
+			for (Map<String, Object> map : list) {
+				//处理关联关系
+				Orders orders = CommonUtils.toBean(map, Orders.class);
+				Commodity com = CommonUtils.toBean(map, Commodity.class);
+				Customer cus = CommonUtils.toBean(map, Customer.class);
+				com = comdao.findCommodityById(com.getCommodity_id());
+				cus = cusdao.findCustomerByPNum(cus.getCustomer_id());
+				orders.setCommodity(com);
+				orders.setCustomer(cus);
+				result.add(orders);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public void update(Orders orders) {
+		String sql = "update orders set  customer_id = ?, order_time = ?, state = ?, count = ?, total = ?, commodity_id = ?  where orders_id = ?";
+		Object[] param = {orders.getCustomer().getCustomer_id(), orders.getOrder_time(),orders.getState(), orders.getCount(), orders.getTotal(), orders.getCommodity().getCommodity_id(), orders.getOrders_id() };
+		try {
+			qr.update(sql, param);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void deleteOrders(Orders orders) {
+		String sql = "delete from orders where orders_id = ?";
+		Object[] param = {orders.getOrders_id() };
 		try {
 			qr.update(sql, param);
 		} catch (SQLException e) {

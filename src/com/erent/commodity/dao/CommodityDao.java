@@ -70,9 +70,12 @@ public class CommodityDao {
 		return result;
 	}
 
-	public List<Commodity> search(String keyWord, int nowPage, int pageSize) {
+	public List<Commodity> search(String keyWord, int nowPage, int pageSize, boolean admin) {
 		// TODO Auto-generated method stub
-		String sql = "select * from commodity where com_name LIKE ? limit ?,?";
+		String sql = "select * from commodity where deleted=false and count > 0 and com_name LIKE ? limit ?,?";
+		if(admin) {
+			sql = "select * from commdity where com_name LIKE ? limit ?,?";
+		}
 		List<Commodity> result = new ArrayList<Commodity>();
 		try {
 			List<Map<String, Object>> list = qr.query(sql,

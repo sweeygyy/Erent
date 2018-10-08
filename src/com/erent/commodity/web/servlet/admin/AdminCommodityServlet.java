@@ -45,6 +45,8 @@ public class AdminCommodityServlet extends BaseServlet {
 	 */
 	public void getCommodity(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		String nowPage = request.getParameter("nowPage");
 		String pageSize = request.getParameter("pageSize");
 
@@ -67,9 +69,9 @@ public class AdminCommodityServlet extends BaseServlet {
 	 */
 	public void deleteCommodity(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		String commodityId = request.getParameter("commodity_id");
-
-		List<Commodity> result = null;
 		try {
 			service.remove(commodityId);
 			JSONObject object = new JSONObject();
@@ -80,4 +82,29 @@ public class AdminCommodityServlet extends BaseServlet {
 			response.getWriter().print(object.toString());
 		}		
 	}
+	
+	/**
+	 * 管理员搜索功能
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void search(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		String keyword = request.getParameter("search");
+		String nowPage = request.getParameter("nowPage");
+		String pageSize = request.getParameter("pageSize");
+		
+		List<Commodity> result = null;
+		try {
+			result = service.adminSearch(keyword, nowPage, pageSize);
+			response.getWriter().print(TransformUtils.returnArrayString(result));
+		} catch (CommodityException e) {
+			JSONObject object = TransformUtils.packException(e);
+			response.getWriter().print(object.toString());
+		}
+	}	
 }

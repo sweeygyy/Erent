@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login Test</title>
+</head>
+<body>
+	<form name="f1" id="f1" action="CustomerServlet" method="post">
+      <input type="hidden" name="method" value="login" />
+      <table border="0">
+        <tr>
+          <td>学号:</td>
+          <td><input type="text" name="customer_id" id="customer_id"></td>
+        </tr>
+        <tr>
+          <td>密码:</td>
+          <td><input type="password" name="password" id="password"></td>
+        </tr> 
+        <tr>
+          <td colspan="2" align="center"><input type="submit"></td>
+        </tr>
+      </table>
+    </form>
+</body>
+</html>

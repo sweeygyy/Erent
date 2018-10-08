@@ -117,9 +117,4 @@ public class OrdersServlet extends BaseServlet {
 		response.getWriter().print(object.toString());
 		
 	}
-	
-	public void init() throws ServletException {
-
-	}
-
 }

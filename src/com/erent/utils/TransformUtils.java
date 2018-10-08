@@ -3,14 +3,15 @@ package com.erent.utils;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import com.erent.category.service.CategoryException;
 import com.erent.commodity.service.CommodityException;
 import com.erent.customer.service.CustomerException;
+import com.erent.customer.service.admin.AdminException;
 import com.erent.orders.service.OrdersException;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 public class TransformUtils {
 
@@ -60,6 +61,14 @@ public class TransformUtils {
 	 * @return
 	 */
 	public static JSONObject packException(OrdersException e) {
+		JSONObject object = new JSONObject();
+		object.accumulate("flag", false);
+		object.accumulate("errorCode", e.getErrorCode());
+		object.accumulate("errorString", e.getMessage());
+		return object;
+	}
+	
+	public static JSONObject packException(AdminException e) {
 		JSONObject object = new JSONObject();
 		object.accumulate("flag", false);
 		object.accumulate("errorCode", e.getErrorCode());

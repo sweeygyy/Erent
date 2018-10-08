@@ -98,4 +98,43 @@ public class OrdersService {
 		List<Orders> result = dao.findOrdersBySellerId(seller_id);
 		return result;
 	}
+
+	public List<Orders> adminGetOrders(String nowPage, String pageSize) throws OrdersException {
+		List<Orders> result = null;
+		try {
+			int lowp = Integer.parseInt(nowPage);
+			int highp = Integer.parseInt(pageSize);
+			result = dao.findOrdersLimit(lowp, highp);
+		} catch (NumberFormatException e) {
+			throw new OrdersException("页码无效", 201);
+		}
+		return result;
+	}
+
+	public Orders modify(Orders orders, String customerId, String commodityId) throws OrdersException, CustomerException, CommodityException {
+		Customer customer = custdao.findCustomerByPNum(customerId);
+		Commodity commodity = comdao.findCommodityById(commodityId);
+		Orders database = dao.findOrdersById(orders.getOrders_id());
+		if(database == null) {
+			throw new OrdersException("该订单不存在", 703);
+		}
+		if(customer == null) {
+			throw new CustomerException("用户不存在", 101);
+		}
+		if(commodity == null) {
+			throw new CommodityException("商品不存在", 500);
+		}		
+		orders.setCustomer(customer);
+		orders.setCommodity(commodity);
+		dao.update(orders);
+		return dao.findOrdersById(orders.getOrders_id());
+	}
+	
+	public void remove(String orders_id) throws OrdersException {
+		Orders orders = dao.findOrdersById(orders_id);
+		if (orders == null) {
+			throw new OrdersException("该订单不存在", 703);
+		}
+		dao.deleteOrders(orders);
+	}
 }
