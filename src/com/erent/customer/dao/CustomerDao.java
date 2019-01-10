@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 
 import com.erent.customer.domain.Customer;
 import com.erent.customer.domain.Person;
@@ -127,5 +128,29 @@ public class CustomerDao {
 						.getTime_enrolment().getTime()));
 			}
 		}
+	}
+
+	public List<Customer> getUsers(int lowp, int highp) {
+		String sql = "select * from customer limit ?, ?";
+		List<Customer> result = null;
+		try {
+			result = runner.query(sql, new BeanListHandler<Customer>(
+					Customer.class), (lowp - 1) * highp, highp);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return result;
+	}
+
+	public void delete(Customer cus) {
+		// TODO Auto-generated method stub
+//		String sql = "delete from customer where customer_id = ?";
+//		try {
+//			result = runner.query(sql, new BeanListHandler<Customer>(
+//					Customer.class), (lowp - 1) * highp, highp);
+//		} catch (SQLException e) {
+//			throw new RuntimeException(e);
+//		}
+//		return result;
 	}
 }

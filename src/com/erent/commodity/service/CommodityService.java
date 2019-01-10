@@ -28,6 +28,9 @@ public class CommodityService {
 		List<Collection> result = null;
 		try {
 			int nowp = Integer.parseInt(nowPage);
+			if (nowp < 1) {
+				throw new CommodityException("页码无效", 201);
+			}
 			int pages = Integer.parseInt(pageSize);
 			result = dao.findCollectionLimit(customer_id, nowp, pages);
 		} catch (NumberFormatException e) {
@@ -49,6 +52,9 @@ public class CommodityService {
 		List<Commodity> result = null;
 		try {
 			int nowp = Integer.parseInt(nowPage);
+			if (nowp < 1) {
+				throw new CommodityException("页码无效", 201);
+			}
 			int pages = Integer.parseInt(pageSize);
 			result = dao.search(keyWord, nowp, pages, false);
 		} catch (NumberFormatException e) {
@@ -73,6 +79,9 @@ public class CommodityService {
 		List<Commodity> result = null;
 		try {
 			int nowp = Integer.parseInt(nowPage);
+			if (nowp < 1) {
+				throw new CommodityException("页码无效", 201);
+			}
 			int pages = Integer.parseInt(pageSize);
 			result = dao.search(keyWord, nowp, pages, true);
 		} catch (NumberFormatException e) {
@@ -96,6 +105,9 @@ public class CommodityService {
 		List<Commodity> result = null;
 		try {
 			int lowp = Integer.parseInt(nowPage);
+			if (lowp < 1) {
+				throw new CommodityException("页码无效", 201);
+			}
 			int highp = Integer.parseInt(pageSize);
 			result = dao.findCommodityLimit(lowp, highp, false);
 		} catch (NumberFormatException e) {
@@ -116,6 +128,9 @@ public class CommodityService {
 		List<Commodity> result = null;
 		try {
 			int lowp = Integer.parseInt(nowPage);
+			if (lowp < 1) {
+				throw new CommodityException("页码无效", 201);
+			}
 			int highp = Integer.parseInt(pageSize);
 			result = dao.findCommodityLimit(lowp, highp, true);
 		} catch (NumberFormatException e) {
@@ -184,7 +199,6 @@ public class CommodityService {
 	 * @throws CommodityException 
 	 */
 	public void remove(String commodityId) throws CommodityException {
-		// TODO 自动生成的方法存根
 		Commodity com = dao.findCommodityById(commodityId);
 		if(com == null) {
 			throw new CommodityException("商品不存在",500);

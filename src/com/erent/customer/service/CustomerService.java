@@ -1,5 +1,9 @@
 package com.erent.customer.service;
 
+import java.util.List;
+
+import com.erent.commodity.domain.Commodity;
+import com.erent.commodity.service.CommodityException;
 import com.erent.customer.dao.CustomerDao;
 import com.erent.customer.domain.Customer;
 
@@ -123,6 +127,34 @@ public class CustomerService {
 		customer.setpImage(form.getpImage());
 		dao.update(customer);
 		return getCustomerInfo(form);
+	}
+
+	/**
+	 * 获取所有用户逻辑
+	 */
+	public List<Customer> getAllUser(String nowPage, String pageSize) throws CustomerException {
+		List<Customer> result;
+		try {
+			int lowp = Integer.parseInt(nowPage);
+			if (lowp < 1) {
+				throw new CustomerException("页码无效", 201);
+			}
+			int highp = Integer.parseInt(pageSize);
+			result = dao.getUsers(lowp, highp);
+		} catch (NumberFormatException e) {
+			throw new CustomerException("页码无效", 201);
+		}
+		return result;
+	}
+	
+	public Customer delete(Customer form) {
+//		Customer cus = dao.findCustomerByPNum(form.getCustomer_id());
+//		if(cus == null) {
+//			throw new CommodityException("用户不存在",101);
+//		} else {
+//			dao.delete(cus);
+//		}
+		return null;
 	}
 	
 }

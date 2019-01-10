@@ -55,7 +55,13 @@ public class AdminOrdersServlet extends BaseServlet {
 		}
 	}
 	
-	
+	/**
+	 * 修改订单
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void modity(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Orders orders = CommonUtils.toBean(request.getParameterMap(), Orders.class);
@@ -79,6 +85,13 @@ public class AdminOrdersServlet extends BaseServlet {
 		}
 	}
 	
+	/**
+	 * 删除订单
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void remove(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
